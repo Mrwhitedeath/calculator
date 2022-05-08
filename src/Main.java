@@ -1,17 +1,20 @@
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите уравнение:");
-        String input = scanner.nextLine();
-        String result = calc(input);
-
-        //123
-
-        System.out.println(result);
+//        System.out.println("Введите уравнение:");
+//        String input = scanner.nextLine();
+//        String result = calc(input);
+//
+//        //123
+//
+//        System.out.println(result);
+        Numbers numbers = new Numbers();
+        System.out.println(numbers.RomanianToInteger("XCVII"));
     }
 
     public static String calc (String input){
@@ -111,5 +114,27 @@ class Numbers{
             if (value.getArabianDigit() == arabianDigit) return value.name();
         }
         return "";
+    }
+
+    int RomanianToInteger(String string){
+        int res = 0;
+        HashMap<Character, Integer> romanian = new HashMap<>();
+        romanian.put('I', 1);
+        romanian.put('V', 5);
+        romanian.put('X', 10);
+        romanian.put('L', 50);
+        romanian.put('C', 100);
+        romanian.put('D', 500);
+        romanian.put('M', 1000);
+
+        for (int i=0; i < string.length(); i++){
+            if (i+1 < string.length() &&
+                    romanian.get(string.charAt(i)) < romanian.get(string.charAt(i+1))){
+                res -= romanian.get(string.charAt(i));
+            } else {
+                res += romanian.get(string.charAt(i));
+            }
+        }
+        return res;
     }
 }
