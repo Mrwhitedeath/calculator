@@ -16,6 +16,9 @@ public class Main {
     }
 
     public static String calc (String input){
+        boolean isRoman = false;
+        int fistDigit = 0;
+        int secondDigit = 0;
         Numbers numbers = new Numbers();
         // Нормализуем ввод, убираем все пробелы, чтобы работало если строку ввели с пробелами и без
         input = input.replace(" ", "");
@@ -34,19 +37,43 @@ public class Main {
         boolean isArabic = numbers.isArabic(inputStr[0]) && numbers.isArabic(inputStr[1]);
 
         if (!isArabic){
+            try {
+                RomanDigit romanDigit = RomanDigit.valueOf(inputStr[0]);
+                fistDigit = romanDigit.getArabianDigit();
+                romanDigit = RomanDigit.valueOf(inputStr[1]);
+                secondDigit = romanDigit.getArabianDigit();
+//                System.out.println(fistDigit + " " + secondDigit);
+                isRoman = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Введено некорректное уравнение.");
+                System.exit(1);
+            }
 
+        } else {
+            fistDigit = Integer.parseInt(inputStr[0]);
+            secondDigit = Integer.parseInt(inputStr[1]);
         }
 
-        System.out.println(isArabic);
 
-
-
-        // получаем операцию
         String operation = numbers.getOperation(inputStr[0], input);
 
+        int digitResult = numbers.calculate(fistDigit, secondDigit, operation);
 
-        System.out.println(numbers.calculate(Integer.parseInt(inputStr[0]), Integer.parseInt(inputStr[1]), operation));
-        return "";
+        if (isRoman && digitResult < 1)  try {
+            throw new IOException();
+        } catch (IOException e) {
+            System.out.println("Римские цифры не могут быть <=0");
+            System.exit(1);
+        }
+//        TODO сделать перевод арабских цифр в римские
+
+//        else if (isRoman && digitResult > 0) {
+//            return Integer.toString(digitResult);
+//
+//        }
+
+
+        return Integer.toString(digitResult);
     }
 
 }
@@ -62,12 +89,6 @@ class Numbers{
             result = false;
         }
         return result;
-    }
-
-    boolean isRoman(String num){
-
-
-        return true;
     }
 
     String getOperation (String fistDigit, String fullString){
