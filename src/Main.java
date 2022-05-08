@@ -71,8 +71,6 @@ public class Main {
         else if (isRoman){
             return numbers.ArabicToRomanian(digitResult);
         }
-
-
         return Integer.toString(digitResult);
     }
 
@@ -105,7 +103,7 @@ class Numbers{
         }
         return result;
     }
-    public String ArabicToRomanian(int arabianDigit){
+    String ArabicToRomanian(int arabianDigit){
         RomanDigit[] allValues = RomanDigit.values();
         for (RomanDigit value: allValues){
             if (value.getArabianDigit() == arabianDigit) return value.name();
