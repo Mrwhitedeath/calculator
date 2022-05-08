@@ -6,15 +6,13 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-//        System.out.println("Введите уравнение:");
-//        String input = scanner.nextLine();
-//        String result = calc(input);
-//
-//        //123
-//
-//        System.out.println(result);
-        Numbers numbers = new Numbers();
-        System.out.println(numbers.RomanianToInteger("XCVII"));
+        System.out.println("Введите уравнение:");
+        String input = scanner.nextLine();
+        String result = calc(input);
+        System.out.println(result);
+//        Numbers numbers = new Numbers();
+//        System.out.println(numbers.romanToArabic("XCVII"));
+//        System.out.println(numbers.arabicToRoman(47));
     }
 
     public static String calc (String input){
@@ -40,13 +38,10 @@ public class Main {
 
         if (!isArabic) {
             try {
-                RomanDigit romanDigit = RomanDigit.valueOf(inputStr[0]);
-                fistDigit = romanDigit.getArabianDigit();
-                romanDigit = RomanDigit.valueOf(inputStr[1]);
-                secondDigit = romanDigit.getArabianDigit();
-//                System.out.println(fistDigit + " " + secondDigit);
+                fistDigit = numbers.romanToArabic(inputStr[0]);
+                secondDigit = numbers.romanToArabic(inputStr[1]);
                 isRoman = true;
-            } catch (IllegalArgumentException e) {
+            } catch (NullPointerException e) {
                 System.out.println("Введено некорректное уравнение.");
                 System.exit(1);
             }
@@ -74,7 +69,7 @@ public class Main {
             System.exit(1);
         }
         else if (isRoman){
-            return numbers.ArabicToRomanian(digitResult);
+            return numbers.arabicToRoman(digitResult);
         }
         return Integer.toString(digitResult);
     }
@@ -108,15 +103,8 @@ class Numbers{
         }
         return result;
     }
-    String ArabicToRomanian(int arabianDigit){
-        RomanDigit[] allValues = RomanDigit.values();
-        for (RomanDigit value: allValues){
-            if (value.getArabianDigit() == arabianDigit) return value.name();
-        }
-        return "";
-    }
 
-    int RomanianToInteger(String string){
+    int romanToArabic(String string){
         int res = 0;
         HashMap<Character, Integer> romanian = new HashMap<>();
         romanian.put('I', 1);
@@ -137,4 +125,19 @@ class Numbers{
         }
         return res;
     }
+
+    public String arabicToRoman(int num) {
+        int[] value = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        String[] roman = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        String res = "";
+
+        for (int i=0; i < value.length; i++){
+            while (num >= value[i]){
+                num -= value[i];
+                res = res + roman[i];
+            }
+        }
+        return res;
+    }
+
 }
