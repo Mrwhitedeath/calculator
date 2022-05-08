@@ -5,11 +5,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Введите уравнение:");
-
         String input = scanner.nextLine();
-
         String result = calc(input);
 
         System.out.println(result);
@@ -36,7 +33,7 @@ public class Main {
         // теперь надо проверить , что числа корректны
         boolean isArabic = numbers.isArabic(inputStr[0]) && numbers.isArabic(inputStr[1]);
 
-        if (!isArabic){
+        if (!isArabic) {
             try {
                 RomanDigit romanDigit = RomanDigit.valueOf(inputStr[0]);
                 fistDigit = romanDigit.getArabianDigit();
@@ -48,10 +45,16 @@ public class Main {
                 System.out.println("Введено некорректное уравнение.");
                 System.exit(1);
             }
-
-        } else {
+    } else {
             fistDigit = Integer.parseInt(inputStr[0]);
             secondDigit = Integer.parseInt(inputStr[1]);
+        }
+
+        if (isRoman && (fistDigit > 10 | secondDigit > 10))try {
+            throw new IOException();
+        } catch (IOException e) {
+            System.out.println("Введено некорректное уравнение.");
+            System.exit(1);
         }
 
 
@@ -65,12 +68,10 @@ public class Main {
             System.out.println("Римские цифры не могут быть <=0");
             System.exit(1);
         }
-//        TODO сделать перевод арабских цифр в римские
 
-//        else if (isRoman && digitResult > 0) {
-//            return Integer.toString(digitResult);
-//
-//        }
+        else  {
+            return numbers.ArabicToRomanian(digitResult);
+        }
 
 
         return Integer.toString(digitResult);
@@ -104,6 +105,12 @@ class Numbers{
             case ("/") -> result = fistDigit / secondDigit;
         }
         return result;
-
+    }
+    public String ArabicToRomanian(int arabianDigit){
+        RomanDigit[] allValues = RomanDigit.values();
+        for (RomanDigit value: allValues){
+            if (value.getArabianDigit() == arabianDigit) return value.name();
+        }
+        return "";
     }
 }
