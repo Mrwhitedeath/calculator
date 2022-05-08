@@ -68,8 +68,7 @@ public class Main {
             System.out.println("Римские цифры не могут быть <=0");
             System.exit(1);
         }
-
-        else  {
+        else if (isRoman){
             return numbers.ArabicToRomanian(digitResult);
         }
 
