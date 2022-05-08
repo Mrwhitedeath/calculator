@@ -1,10 +1,22 @@
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Введите уравнение:");
+
+        String input = scanner.nextLine();
+
+        String result = calc(input);
+
+        System.out.println(result);
+    }
+
     public static String calc (String input){
+        Numbers numbers = new Numbers();
         // Нормализуем ввод, убираем все пробелы, чтобы работало если строку ввели с пробелами и без
         input = input.replace(" ", "");
 
@@ -19,35 +31,28 @@ public class Main {
             System.exit(1);
         }
         // теперь надо проверить , что числа корректны
+        boolean isArabic = numbers.isArabic(inputStr[0]) && numbers.isArabic(inputStr[1]);
+
+        if (!isArabic){
+
+        }
+
+        System.out.println(isArabic);
 
 
 
+        // получаем операцию
+        String operation = numbers.getOperation(inputStr[0], input);
 
 
-        System.out.println(Arrays.asList(inputStr));
-
+        System.out.println(numbers.calculate(Integer.parseInt(inputStr[0]), Integer.parseInt(inputStr[1]), operation));
         return "";
     }
 
-    public boolean isArabic (String digit){
-        int dig = Integer.parseInt(digit);
-        return true;
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Введите уравнение:");
-
-        String input = scanner.nextLine();
-
-        String result = calc(input);
-
-        System.out.println(result);
-    }
 }
+
 //Создаем класс , чтобы все операции с числами производить с помощью методов данного класса
-class numbers{
+class Numbers{
     boolean isArabic(String num){             // проверяем, что число арабское и  0< num <=10
         boolean result;
         try {
@@ -59,4 +64,25 @@ class numbers{
         return result;
     }
 
+    boolean isRoman(String num){
+
+
+        return true;
+    }
+
+    String getOperation (String fistDigit, String fullString){
+        return fullString.substring(fistDigit.length(), fistDigit.length()+1); //возвращаем следующий символ после 1 цифры
+    }
+
+    int calculate(int fistDigit, int secondDigit, String operation){
+        int result = 0;
+        switch (operation){
+            case ("+") -> result = fistDigit + secondDigit;
+            case ("-") -> result = fistDigit - secondDigit;
+            case ("*") -> result = fistDigit * secondDigit;
+            case ("/") -> result = fistDigit / secondDigit;
+        }
+        return result;
+
+    }
 }
