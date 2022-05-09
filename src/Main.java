@@ -16,7 +16,7 @@ public class Main {
         boolean isRoman = false;
         int fistDigit = 0;
         int secondDigit = 0;
-        Numbers numbers = new Numbers();
+
         // Нормализуем ввод, убираем все пробелы, чтобы работало если строку ввели с пробелами и без
         input = input.replace(" ", "");
 
@@ -31,12 +31,12 @@ public class Main {
             System.exit(1);
         }
         // теперь надо проверить , что числа корректны
-        boolean isArabic = numbers.isArabic(inputStr[0]) && numbers.isArabic(inputStr[1]);
+        boolean isArabic = Numbers.isArabic(inputStr[0]) && Numbers.isArabic(inputStr[1]);
 
         if (!isArabic) {
             try {
-                fistDigit = numbers.romanToArabic(inputStr[0]);
-                secondDigit = numbers.romanToArabic(inputStr[1]);
+                fistDigit = Numbers.romanToArabic(inputStr[0]);
+                secondDigit = Numbers.romanToArabic(inputStr[1]);
                 isRoman = true;
             } catch (NullPointerException e) {
                 System.out.println("Введено некорректное уравнение.");
@@ -55,9 +55,9 @@ public class Main {
         }
 
 
-        String operation = numbers.getOperation(inputStr[0], input);
+        String operation = Numbers.getOperation(inputStr[0], input);
 
-        int digitResult = numbers.calculate(fistDigit, secondDigit, operation);
+        int digitResult = Numbers.calculate(fistDigit, secondDigit, operation);
 
         if (isRoman && digitResult < 1)  try {
             throw new IOException();
@@ -66,7 +66,7 @@ public class Main {
             System.exit(1);
         }
         else if (isRoman){
-            return numbers.arabicToRoman(digitResult);
+            return Numbers.arabicToRoman(digitResult);
         }
         return Integer.toString(digitResult);
     }
@@ -75,7 +75,7 @@ public class Main {
 
 //Создаем класс , чтобы все операции с числами производить с помощью методов данного класса
 class Numbers{
-    boolean isArabic(String num){             // проверяем, что число арабское и  0< num <=10
+    static boolean isArabic(String num){             // проверяем, что число арабское и  0< num <=10
         boolean result;
         try {
             int digit = Integer.parseInt(num);
@@ -86,11 +86,11 @@ class Numbers{
         return result;
     }
 
-    String getOperation (String fistDigit, String fullString){
+    static String getOperation (String fistDigit, String fullString){
         return fullString.substring(fistDigit.length(), fistDigit.length()+1); //возвращаем следующий символ после 1 цифры
     }
 
-    int calculate(int fistDigit, int secondDigit, String operation){
+    static int calculate(int fistDigit, int secondDigit, String operation){
         int result = 0;
         switch (operation){
             case ("+") -> result = fistDigit + secondDigit;
@@ -101,7 +101,7 @@ class Numbers{
         return result;
     }
 
-    int romanToArabic(String string){
+    static int romanToArabic(String string){
         int res = 0;
         HashMap<Character, Integer> romanian = new HashMap<>();
         romanian.put('I', 1);
@@ -123,7 +123,7 @@ class Numbers{
         return res;
     }
 
-    public String arabicToRoman(int num) {
+    static public String arabicToRoman(int num) {
         int[] value = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
         String[] roman = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
         StringBuilder res = new StringBuilder();
